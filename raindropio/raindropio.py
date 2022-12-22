@@ -25,7 +25,10 @@ class RaindropIO(object):
             "Cookie": cookie,
         }
         # Checks
-        assert "email" in self.get_user()
+        try:
+            assert "user" in self.get_user()
+        except AssertionError:
+            raise Exception("Invalid Login")
 
     def get_user(self):
         """
