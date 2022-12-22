@@ -42,6 +42,9 @@ class RaindropIO(object):
         return json.loads(r.text)
 
     def get_collections(self):
+        """
+            List all collections
+        """
         url = "https://api.raindrop.io/v1/collections/all"
         r = requests.get(url, headers=self.headers)
         # Check
@@ -52,12 +55,13 @@ class RaindropIO(object):
     def get_collection(
             self,
             collection_id: int,
+            page:int =0,
             sort: str = "sort",
             perpage: int = 40):
         """
             Gets a collection list by id
         """
-        url = f"https://api.raindrop.io/v1/raindrops/{collection_id}?sort={sort}&perpage={perpage}&version=2"
+        url = f"https://api.raindrop.io/v1/raindrops/{collection_id}?sort={sort}&perpage={perpage}&version=2&page={page}"
         r = requests.get(url, headers=self.headers)
         # Check
         if r.status_code != 200:
@@ -129,11 +133,14 @@ class RaindropIO(object):
             raise Exception(f"cannot trash raindrop ids. {r.status_code}")
         return json.loads(r.text)
 
-    def get_trash(self, perpage: int = 40):
+    def get_trash(self, 
+            page:int = 0,
+            sort:str = "sort",
+            perpage: int = 40):
         """
             Get Trash folder
         """
-        url = f"https://api.raindrop.io/v1/raindrops/-99?sort=sort&perpage={perpage}&version=2"
+        url = f"https://api.raindrop.io/v1/raindrops/-99?page={page}&sort={sort}&perpage={perpage}&version=2"
         r = requests.get(url, headers=self.headers)
         # Check
         if r.status_code != 200:
